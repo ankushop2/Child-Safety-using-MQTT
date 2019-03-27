@@ -10,9 +10,9 @@ import json
 
 CLIENT_ID_LENGTH = 10 #############TO BE COMPUTED###############
 CLIENT_ID = "SensorBoi1" #####################TO BE TAKEN FROM DB##################
-MQTT_BROKER_URI = "mqtt://192.168.1.100:1883"
+MQTT_BROKER_URI = "mqtt://192.168.43.6:1883"
 #MQTT_BROKER_URI = "mqtt://test.mosquitto.org:1883" ##if test online
-CHANNEL_ID = "testing/response" #####################TO BE TAKEN FROM DB##################
+CHANNEL_ID = "a12b34c56d/response" #####################TO BE TAKEN FROM DB##################
 
 inputQueue = queue.Queue() ####### GLOBAL QUEUE FOR STORING MESSAGES IN THE CURRENT SESSION################
 def getNextInputLine():

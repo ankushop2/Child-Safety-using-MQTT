@@ -4,6 +4,7 @@ import ds18b20 as probetemp
 from mq import *
 from pulsesensor import Pulsesensor
 from gps import GPSget
+import random
 
 def sensors():
     final_ret = dict()
@@ -30,8 +31,8 @@ def sensors():
     p = Pulsesensor()
     p.startAsyncBPM()
     while True:
-        #bpm = p.BPM
-        bpm = 50
+        bpm = p.BPM
+        #bpm = random.randint(50,70)
         if bpm > 0:
             #print("BPM: %d" % bpm)
             p.stopAsyncBPM()
