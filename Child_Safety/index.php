@@ -1,17 +1,42 @@
   <?php
-  	
-  	//$pyscript = "E:\\Ongoing\\__FINALYEARPROJECT\\CODE\\TEST\\clientchat.py";
+  	session_start();
+      $username = $_SESSION['loggedin'];
+  if($username){
+    ini_set('display_errors', 1);
+    date_default_timezone_set('Asia/Kolkata');
+    $date =  date('d-m-Y H:i');
+    $user = $_SESSION['loggedin'];
+    $servername = "localhost";
+    $username = 'root';
+    $password = '';
+    $db = 'studentdb';
+    $conn = new mysqli($servername, $username, $password,$db);
+   // echo $user;
+    $query = "SELECT deviceser FROM devicedet WHERE loginID='$user';";
+   // echo $query;
+    $result = $conn->query($query);
+    $rows = mysqli_num_rows($result);
+     if ($rows == 1) { 
+          $row = mysqli_fetch_array($result);
+    } 
+    $arg = $row;
+    //echo $arg[0];
+    //echo $user;
   	  $pyscript = 'E:\\Ongoing\\___FINALYEARPROJECT\\CODE\\TEST\\clientchat.py';
       $python = 'C:\\Users\\ankus\\AppData\\Local\\Programs\\Python\\Python37-32\\python.exe';
 
-      $cmd = "$python $pyscript";
-     // echo $cmd;
+      $cmd = "$python $pyscript $arg[0]";//Execution of Python Script
 
       exec("$cmd",$output);
       //print_r($output);
       $parameters = json_decode($output[0],true);
-      //print($json_check["loc_lat"]);
-      //echo "HELLO";
+       $query1 = "INSERT INTO `devicelog` (`deviceser`, `timestamp`, `bodytemp`, `pulse`, `ambienttemp`, `ambienthumidity`, `COconc`, `Smokeconc`, `LPGconc`, `lat`, `lng`) VALUES ('".$arg[0]. "', '".$date."', '".$parameters["body_temp"]."', '".$parameters["Pulse"]."', '".$parameters["ambient_temp"]."','".$parameters["humidity"]."', '".$parameters["CO"]."','".$parameters["Smoke"]."', '".$parameters["LPG"]."', '".$parameters["loc_lat"]."', '".$parameters["loc_lng"]."');";
+
+      $conn->query($query1);
+    }
+    else{
+      header("location:login.php");
+    }
   ?>
   <!DOCTYPE html>
   <html lang="en">
@@ -48,10 +73,12 @@
     <nav class="light-blue lighten-1" role="navigation">
       <div class="nav-wrapper container"><a id="logo-container" href="#" class="brand-logo">Child Safety</a>
         <ul class="right hide-on-med-and-down">
+          <li><a href="registerdevice.php">Register Device</a></li>
           <li><a href="#">Logs</a></li>
           <li><a href="#">Logout</a></li>
         </ul>
         <ul id="nav-mobile" class="sidenav">
+          <li><a href="registerdevice.php">Register Device</a></li>
            <li><a href="#">Logs</a></li>
           <li><a href="#">Logout</a></li>
         </ul>
