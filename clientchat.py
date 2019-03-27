@@ -8,6 +8,7 @@ import queue
 from time import sleep
 from random import random
 import mysql.connector
+import sys
 mydb = mysql.connector.connect(
   host="localhost",
   user="root",
@@ -23,9 +24,9 @@ CLIENT_ID_LENGTH = 10#############TO BE COMPUTED########################
 
 
 CLIENT_ID = "ClientBoi1" #############TO BE TAKEN FROM DB########################
-MQTT_BROKER_URI = "mqtt://192.168.1.100:1883"
+MQTT_BROKER_URI = "mqtt://192.168.43.6:1883"
 #MQTT_BROKER_URI = "mqtt://test.mosquitto.org:1883"
-CHANNEL_ID = "testing/response"#############TO BE TAKEN FROM DB########################
+CHANNEL_ID = str(sys.argv[1])+"/response"#############TO BE TAKEN FROM DB########################
 #MQTT_BROKER_URI = "mqtt://broker.hivemq.com:1883"
 #CHANNEL_ID = "unofouramigos/chat1"
 
