@@ -40,6 +40,7 @@
     <link href="css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
         <link rel="stylesheet" href="https://unpkg.com/leaflet@1.4.0/dist/leaflet.css" integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA==" crossorigin=""/>
       <script src="https://unpkg.com/leaflet@1.4.0/dist/leaflet.js" integrity="sha512-QVftwZFqvtRNi0ZyCtsznlKSWOStnDORoefr1enyq5mVL4tmKB3S/EnC3rRJcxCPavG10IcrVGSmPh6Qw5lwrg==" crossorigin=""></script>
+      <script type="text/javascript" src="js/paginaiton.js"></script>
     
     <style>
     	nav{
@@ -48,9 +49,9 @@
   		  background: linear-gradient(to right, #ff6a00, #ee0979); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
     	}
     	.card-panel{
-    		background: #808080;  /* fallback for old browsers */
-        background: -webkit-linear-gradient(to right, #3fada8, #808080);  /* Chrome 10-25, Safari 5.1-6 */
-        background: linear-gradient(to right, #3fada8, #808080); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    		background: #74ebd5;  /* fallback for old browsers */
+        background: -webkit-linear-gradient(to right, #ACB6E5, #74ebd5);  /* Chrome 10-25, Safari 5.1-6 */
+        background: linear-gradient(to right, #ACB6E5, #74ebd5);  W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 
     	}
       .container{
@@ -76,7 +77,7 @@
     </nav>   
     <br><br>
     <div class="container">
-      <table class="striped responsive-table centered">
+      <table class="striped responsive-table centered" id="myTable">
         <thead class="highlight">
           <tr>
               <th>TimeStamp</th>
@@ -117,6 +118,19 @@
     <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
     <script src="js/materialize.js"></script>
     <script src="js/init.js"></script>
+    <script>
+      $(document).ready(function(){
+  $('#myTable').pageMe({
+    pagerSelector:'#myPager',
+    activeColor: 'green',
+    prevText:'Anterior',
+    nextText:'Siguiente',
+    showPrevNext:true,
+    hidePageNumbers:false,
+    perPage:10
+  });
+});
+</script>
 
 
     </body>
