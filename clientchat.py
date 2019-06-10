@@ -9,6 +9,9 @@ from time import sleep
 from random import random
 import mysql.connector
 import sys
+import time
+
+ttimetoinsert = time.strftime('%Y-%m-%d %H:%M:%S')
 mydb = mysql.connector.connect(
   host="localhost",
   user="root",
@@ -16,13 +19,9 @@ mydb = mysql.connector.connect(
   database="studentdb"
 )
 mycursor = mydb.cursor()
-sql = "INSERT INTO main (response) VALUES (%s)"
-
+#sql = "INSERT INTO main (response) VALUES (%s)"
+sql = "INSERT INTO `devicelog` (`deviceser`, `timestamp`, `bodytemp`, `pulse`, `ambienttemp`, `ambienthumidity`, `COconc`, `Smokeconc`, `LPGconc`, `lat`, `lng`) VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
 CLIENT_ID_LENGTH = 10#############TO BE COMPUTED########################
-# Get random CLIENT_ID_LENGTH digit string of numbers
-#CLIENT_ID = (("%." + str(CLIENT_ID_LENGTH) + "f") % random())[2:]
-
-
 CLIENT_ID = "ClientBoi1" #############TO BE TAKEN FROM DB########################
 MQTT_BROKER_URI = "mqtt://192.168.43.6:1883"
 #MQTT_BROKER_URI = "mqtt://test.mosquitto.org:1883"
@@ -83,12 +82,13 @@ def beginMQTTClient():
             x= "Client " + clientId + ": " + textMessage
             textMessage = textMessage.replace("\'", "\"")
             print(textMessage[6:])
-            #x1 = json.loads(textMessage[6:])
-
+            x1 = json.loads(textMessage[6:])
+            #print("2")
             #return x1
             #print(type(x1))
+            #print(x1["CO"])
             #val = str(textMessage)
-            mycursor.execute(sql, (textMessage,))
+            mycursor.execute(sql, (sys.argv[1],ttimetoinsert,x1["body_temp"],x1["Pulse"],x1["ambient_temp"],x1["humidity"],x1["CO"],x1["Smoke"],x1["LPG"],x1["loc_lat"],x1["loc_lng"]))
             mydb.commit()
             #print(mycursor.rowcount, "record inserted.")
             break
@@ -97,3 +97,7 @@ def beginMQTTClient():
             # "blue", "Why thank you", client " + clientId + " for sending us " + textMessage"
 
 asyncio.get_event_loop().run_until_complete(beginMQTTClient())
+
+
+#{'body_temp': 32.5, 'ambient_temp': 16.0, 'Smoke': 0.020510476230736176, 'humidity': 160.0, 'Pulse': 65, 'CO': 0.004987133147384872, 'loc_lat': '12.8792', 'loc_lng': '77.5878', 'LPG': 0.007685629067439097}
+#(`deviceser`, `timestamp`, `bodytemp`, `pulse`, `ambienttemp`, `ambienthumidity`, `COconc`, `Smokeconc`, `LPGconc`, `lat`, `lng`)
