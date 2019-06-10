@@ -40,7 +40,7 @@ def beginMQTTClient():############################ DEFINING COROUTINE###########
         except asyncio.TimeoutError:
             pass
         except asyncio.IncompleteReadError:
-            print("IncompleteReadError")
+            print("GGWP")
         # Handle local user trying to send a message
         try:
             inputLine = inputQueue.get_nowait()
@@ -55,7 +55,9 @@ def beginMQTTClient():############################ DEFINING COROUTINE###########
             rawStrMsg = msg.data.decode("utf-8")
             clientId = rawStrMsg[0:CLIENT_ID_LENGTH]
             textMessage = rawStrMsg[CLIENT_ID_LENGTH+1:]
-           
+            #textMessage = str(sensors())
+            #continue    
+
             # IGNORE OWN MESSAGES
             if clientId == CLIENT_ID:
                 continue
@@ -66,11 +68,11 @@ def beginMQTTClient():############################ DEFINING COROUTINE###########
                     pre_response = str(sensors())
                     response =  "Client" + clientId + ":" + pre_response
                     #print(response)
-                    yield from client.publish(CHANNEL_ID, bytearray(response, "utf-8")) 
+                    yield from client.publish(CHANNEL_ID, bytearray(response, "utf-8")) #######################REPLY TO SENDER WITH INFO(SENSOR STUFF)#############
                 except asyncio.IncompleteReadError:
                     print("Try again")
             #weGotMail = False
 try:
     asyncio.get_event_loop().run_until_complete(beginMQTTClient())
 except asyncio.IncompleteReadError:
-    print("IncompleteReadError")
+    print("GG")

@@ -31,8 +31,8 @@ def sensors():
     p = Pulsesensor()
     p.startAsyncBPM()
     while True:
-        bpm = p.BPM
-        #bpm = random.randint(50,70)
+        #bpm = p.BPM
+        bpm = random.randint(50,70)
         if bpm > 0:
             #print("BPM: %d" % bpm)
             p.stopAsyncBPM()
